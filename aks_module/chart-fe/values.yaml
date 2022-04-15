@@ -1,0 +1,6 @@
+#fe
+fe_port: 4200
+
+fe:
+  svcType: LoadBalancer
+  serviceName: assignment-frontend-service

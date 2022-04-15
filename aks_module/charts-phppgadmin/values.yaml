@@ -1,0 +1,36 @@
+replicaCount: 1
+image:
+  repository: dockage/phppgadmin
+  #repository: bitnami/phppgadmin
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  name: phppgadmin
+  type: LoadBalancer
+  externalPort: 8080
+  internalPort: 80
+phppgadmin: 
+  serverHost: 
+  serverPort: 5432
+  serverDesc: PostgreSQL
+  serverSslMode: allow
+  serverDefaultDb: template1
+  serverPgDumpPath: /usr/bin/pg_dump
+  serverPgDumpAllPath: /usr/bin/pg_dumpall
+  defaultLang: auto
+  autoComplete: default on
+  extraLoginSecurity: false
+  ownedOnly: false
+  showComments: true
+  showAdvanced: false
+  showSystem: false
+  minPasswordLength: 1
+  leftWidth: 200
+  theme: default
+  showOids: false
+  maxRows: 30
+  maxChars: 50
+  userXhtlmStrict: false
+  helpBase: http://www.postgresql.org/docs/%s/interactive/
+  ajaxRefresh: 3
+resources: {}

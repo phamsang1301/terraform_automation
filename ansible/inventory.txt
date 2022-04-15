@@ -1,0 +1,1 @@
+linux ansible_host=52.229.161.26 ansible_connection=ssh ansible_user=adminuser ansible_ssh_pass=Phamngocsang113

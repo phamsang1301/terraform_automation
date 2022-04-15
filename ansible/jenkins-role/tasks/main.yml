@@ -1,0 +1,36 @@
+---
+# tasks file for roles
+    - name: Test ping
+      ping:
+
+    - name: Download Jenkins repo apt URL for
+      apt_key:
+        url: "{{jenkins.repo_URL}}"
+        state: present
+      become: true
+
+    - name: Ensure the repository is configured
+      apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
+      become: true
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        state: latest
+
+    - name: Install Java
+      apt:
+        name: "{{java}}"
+        state: present
+
+    - name: Install Jenkins
+      become: true
+      apt:
+        name: jenkins
+        state: latest
+
+    - name: Start Jenkins
+      service:
+        name: jenkins
+        enabled: true
+        state: started

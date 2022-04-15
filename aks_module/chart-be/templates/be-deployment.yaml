@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assignment-backend-deployment
+  labels: {{ include "common.beLabels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels: {{ include "common.beLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels: {{ include "common.beLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Values.be_name }}
+          image: {{ .Values.be_image }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.be_port }}
+          env:
+            - name: DB_USER
+              value: {{ .Values.env.pg_user }}
+            - name: DB_HOST
+              value: {{ .Values.env.host }}
+            - name: DB_NAME
+              value: {{ .Values.env.db_name }}
+            - name: DB_PASSWORD
+              value: {{ .Values.env.pg_pass }}
+

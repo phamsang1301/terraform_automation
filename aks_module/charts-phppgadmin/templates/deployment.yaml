@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-deployment
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "name" . }}
+  replicas: 1
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: PHP_PG_ADMIN_SERVER_HOST
+            value: {{ .Values.phppgadmin.serverHost | quote }}
+          - name: PHP_PG_ADMIN_SERVER_PORT
+            value: {{ .Values.phppgadmin.serverPort | quote }}
+          - name: PHP_PG_ADMIN_SERVER_DESC
+            value: {{ .Values.phppgadmin.serverDesc | quote }}
+          - name: PHP_PG_ADMIN_SERVER_SSL_MODE
+            value : {{ .Values.phppgadmin.serverSslMode | quote }}
+          - name: PHP_PG_ADMIN_SERVER_DEFAULT_DB
+            value: {{ .Values.phppgadmin.defaultDb | quote }}
+          - name: PHP_PG_ADMIN_SERVER_PG_DUMP_PATH
+            value: {{ .Values.phppgadmin.serverPgDumpPath | quote }}
+          - name: PHP_PG_ADMIN_SERVER_PG_DUMPALL_PATH
+            value: {{ .Values.phppgadmin.serverPgDumpAllPath | quote }}
+          - name: PHP_PG_ADMIN_DEFAULT_LANG
+            value: {{ .Values.phppgadmin.defaultLang | quote }}
+          - name: PHP_PG_ADMIN_AUTO_COMPLETE
+            value: {{ .Values.phppgadmin.autoComplete | quote }}
+          - name: PHP_PG_ADMIN_EXTRA_LOGIN_SECURITY
+            value: {{ .Values.phppgadmin.extraLoginSecurity | quote }}
+          - name: PHP_PG_ADMIN_OWNED_ONLY
+            value: {{ .Values.phppgadmin.ownedOnly | quote }}
+          - name: PHP_PG_ADMIN_SHOW_COMMENTS
+            value: {{ .Values.phppgadmin.showComments | quote }}
+          - name: PHP_PG_ADMIN_SHOW_ADVANCED
+            value: {{ .Values.phppgadmin.showAdvanced | quote }}
+          - name: PHP_PG_ADMIN_SHOW_SYSTEM
+            value: {{ .Values.phppgadmin.showSystem | quote }}
+          - name: PHP_PG_ADMIN_MIN_PASSWORD_LENGTH
+            value: {{ .Values.phppgadmin.minPasswordLength | quote }}
+          - name: PHP_PG_ADMIN_LEFT_WIDTH
+            value: {{ .Values.phppgadmin.leftWidth | quote }}
+          - name: PHP_PG_ADMIN_THEME
+            value: {{ .Values.phppgadmin.theme | quote }}
+          - name: PHP_PG_ADMIN_SHOW_OIDS
+            value: {{ .Values.phppgadmin.showOids | quote }}
+          - name: PHP_PG_ADMIN_MAX_ROWS
+            value: {{ .Values.phppgadmin.maxRows | quote }}
+          - name: PHP_PG_ADMIN_MAX_CHARS
+            value: {{ .Values.phppgadmin.maxChars | quote }}
+          - name: PHP_PG_ADMIN_USE_XHTML_STRICT
+            value: {{ .Values.phppgadmin.useXhtmlStrict | quote }}
+          - name: PHP_PG_ADMIN_HELP_BASE
+            value: {{ .Values.phppgadmin.helpBase | quote }}
+          - name: PHP_PG_ADMIN_AJAX_REFRESH
+            value: {{ .Values.phppgadmin.ajaxRefresh | quote }}
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+    {{- end }}

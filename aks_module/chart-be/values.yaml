@@ -1,0 +1,6 @@
+be_name: assignment-be
+be_port: 3000
+be:
+  svcType: LoadBalancer
+
+be_image: assign3acr.azurecr.io/be

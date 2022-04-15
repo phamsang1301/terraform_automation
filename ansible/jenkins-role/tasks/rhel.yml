@@ -1,0 +1,28 @@
+---
+# tasks file for jenkins on RHEL
+- name: add jenkins key
+  rpm_key:
+    state: present
+    key: "{{ jenkins_key_rpm }}"
+- name: Repos
+  debug:
+      msg: "{{ item.value.description }} {{ item.value.name }}, {{ item.value.url }}"
+  loop:
+      "{{ lookup('dict',repos) }}"
+- name: "Set EPEL yum repository"
+  yum_repository:
+      name: "{{ item.value.name }}"
+      baseurl: "{{ item.value.url }}"
+      description: "{{ item.value.description }}"
+  loop:
+      "{{ lookup('dict',repos) }}"
+- name: "Install Java and Jenkins"
+  yum:
+      name: "{{ item.value.name }}"
+  loop:
+      "{{ lookup('dict',softwares) }}"
+- name: "Starting jenkins"
+  service:
+      name: "jenkins"
+      state: started
+      enabled: yes

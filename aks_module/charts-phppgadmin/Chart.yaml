@@ -1,0 +1,12 @@
+apiVersion: v1
+name: phppgadmin-chart
+description: phpPgAdmin is a web-based administration tool for PostgreSQL. It is perfect for PostgreSQL DBAs, newbies, and hosting services.
+keywords:
+  - phppgadmin
+  - postgresql
+  - database
+  - sql
+home: http://phppgadmin.sourceforge.net/doku.php
+source:
+  - https://github.com/jjcollinge/phppgadmin-chart
+version: 0.1.0

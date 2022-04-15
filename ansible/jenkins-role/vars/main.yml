@@ -1,0 +1,5 @@
+---
+# vars file for roles
+java: "openjdk-8-jdk"
+jenkins:
+  repo_URL: "https://pkg.jenkins.io/debian-stable/jenkins.io.key"

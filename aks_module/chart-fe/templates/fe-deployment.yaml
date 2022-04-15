@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assignment-frontend-deployment
+  labels: {{ include "common.feLabels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels: {{ include "common.feLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      name: fe
+      labels: {{ include "common.feLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: frontend
+          image: {{ .Values.fe_image }}
+          ports:
+            - containerPort: {{ .Values.fe_port }}
